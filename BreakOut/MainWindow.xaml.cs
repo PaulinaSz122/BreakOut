@@ -15,77 +15,10 @@ using System.Windows.Shapes;
 
 namespace BreakOut
 {
-    /// <summary>
-    /// Logika interakcji dla klasy MainWindow.xaml
-    /// </summary>
-    public class Ball : Image
-    {
-        public int ballX, ballY;
-        public Ball()
-        {
-            BitmapImage b = new BitmapImage();
-            b.BeginInit();
-            b.UriSource = new Uri("spr_Ball_0.png", UriKind.Relative);
-            b.EndInit();
-            Stretch = Stretch.Fill;
-            Source = b;
-            this.ballX = 407;
-            this.ballY = 496;
-        }
-    }
-    public class Brick : Image
-    {
-        static string[] brickColor = {"spr_Brick_0.png", "spr_Brick_1.png", "spr_Brick_2.png", "spr_Brick_3.png",
-                                      "spr_Brick_4.png", "spr_Brick_5.png", "spr_Brick_6.png"};
-        public int brickX, brickY;
-        public Brick(int index)
-        {
-            BitmapImage b = new BitmapImage();
-            b.BeginInit();
-            b.UriSource = new Uri(brickColor[index], UriKind.Relative);
-            b.EndInit();
-            Stretch = Stretch.Fill;
-            Source = b;
-            this.brickX = 130;
-            this.brickY = 82;
-        }
-    }
-    public class Bat : Image
-    {
-        public int batX, batY;
-        public Bat()
-        {
-            BitmapImage b = new BitmapImage();
-            b.BeginInit();
-            b.UriSource = new Uri("spr_Bat_0.png", UriKind.Relative);
-            b.EndInit();
-            Stretch = Stretch.Fill;
-            Source = b;
-            this.batX = 372;
-            this.batY = 521;
-        }
-    }
-    public class ScoreBox : Image
-    {
-        public int X, Y;
-        public ScoreBox()
-        {
-            BitmapImage b = new BitmapImage();
-            b.BeginInit();
-            b.UriSource = new Uri("spr_ScoreBox_0.png", UriKind.Relative);
-            b.EndInit();
-            Stretch = Stretch.Fill;
-            Source = b;
-            this.X = 360;
-            this.Y = 0;
-        }
-    }
     public partial class MainWindow : Window
     {
        // private int n = 3;
         private ScoreBox scoreBox;
-        //private Label scoreLabel;
-        //private Label livesLabel;
         private TextBlock scoreBlock;
         private TextBlock livesBlock;
         private Ball ball;
