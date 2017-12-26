@@ -12,12 +12,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace BreakOut
 {
     public partial class MainWindow : Window
     {
-       // private int n = 3;
         private ScoreBox scoreBox;
         private TextBlock scoreBlock;
         private TextBlock livesBlock;
@@ -26,18 +26,83 @@ namespace BreakOut
         private List<Brick> brick;
         private int lives = 3;
         private int score = 0;
+        private TimeSpan movement = new TimeSpan(10000);
+        private int batDirection = 0; //0 - brak ruchu, 4 - lewo, 6 prawo
+        DispatcherTimer timerBat;
 
         public MainWindow()
         {
             InitializeComponent();
+            timerBat = new DispatcherTimer();
+            timerBat.Tick += new EventHandler(Timer_Tick);
+            timerBat.Interval = movement;
+            this.KeyDown += new KeyEventHandler(OnButtonKeyDown);
+            this.KeyUp += new KeyEventHandler(OnButtonKeyUp);
         }
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            switch (batDirection)
+            {
+                case 4:
+                    paintCanvas.Children.Remove(bat);
+                    bat.batX -= 1;
+                    PaintBat();
+                    break;
+                case 6:
+                    paintCanvas.Children.Remove(bat);
+                    bat.batX += 1;
+                    PaintBat();
+                    break;
 
+            }
+
+        }
+        private void OnButtonKeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Left:
+                    batDirection = 4;
+                    timerBat.Start();
+                    break;
+                case Key.Right:
+                    batDirection = 6;
+                    timerBat.Start();
+                    break;
+            }
+        }
+        private void OnButtonKeyUp(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Left:
+                    batDirection = 0;
+                    timerBat.Stop();
+                    break;
+                case Key.Right:
+                    batDirection = 0;
+                    timerBat.Stop();
+                    break;
+            }
+        }
         private void Play(object sender, RoutedEventArgs e)
         {
             paintCanvas.Children.Remove(title);
             paintCanvas.Children.Remove(playImage);
             paintCanvas.Children.Remove(playButton);
             CreateScene();
+        }
+        private void PaintBall()
+        {
+            Canvas.SetTop(ball, ball.ballY);
+            Canvas.SetLeft(ball, ball.ballX);
+            paintCanvas.Children.Add(ball);
+        }
+        private void PaintBat()
+        {
+            Canvas.SetTop(bat, bat.batY);
+            Canvas.SetLeft(bat, bat.batX);
+            paintCanvas.Children.Add(bat);
         }
         private void CreateScene()
         {
@@ -71,14 +136,10 @@ namespace BreakOut
             paintCanvas.Children.Add(livesBlock);
 
             ball = new Ball();
-            Canvas.SetTop(ball, ball.ballY);
-            Canvas.SetLeft(ball, ball.ballX);
-            paintCanvas.Children.Add(ball);
+            PaintBall();
 
             bat = new Bat();
-            Canvas.SetTop(bat, bat.batY);
-            Canvas.SetLeft(bat, bat.batX);
-            paintCanvas.Children.Add(bat);
+            PaintBat();
 
             Brick tmp;
             brick = new List<Brick>();
