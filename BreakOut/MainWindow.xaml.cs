@@ -20,7 +20,7 @@ namespace BreakOut
     /// </summary>
     public class Ball : Image
     {
-
+        public int ballX, ballY;
         public Ball()
         {
             BitmapImage b = new BitmapImage();
@@ -29,12 +29,15 @@ namespace BreakOut
             b.EndInit();
             Stretch = Stretch.Fill;
             Source = b;
+            this.ballX = 407;
+            this.ballY = 496;
         }
     }
     public class Brick : Image
     {
         static string[] brickColor = {"spr_Brick_0.png", "spr_Brick_1.png", "spr_Brick_2.png", "spr_Brick_3.png",
                                       "spr_Brick_4.png", "spr_Brick_5.png", "spr_Brick_6.png"};
+        public int brickX, brickY;
         public Brick(int index)
         {
             BitmapImage b = new BitmapImage();
@@ -43,37 +46,35 @@ namespace BreakOut
             b.EndInit();
             Stretch = Stretch.Fill;
             Source = b;
+            this.brickX = 130;
+            this.brickY = 82;
         }
     }
     public class Bat : Image
     {
+        public int batX, batY;
         public Bat()
         {
             BitmapImage b = new BitmapImage();
             b.BeginInit();
-            b.UriSource = new Uri("spr_Ball_0.png", UriKind.Relative);
+            b.UriSource = new Uri("spr_Bat_0.png", UriKind.Relative);
             b.EndInit();
             Stretch = Stretch.Fill;
             Source = b;
+            this.batX = 372;
+            this.batY = 521;
         }
     }
     public partial class MainWindow : Window
     {
-        public void createScene()
-        {
-            Ball ball = new Ball();
-            Canvas.SetTop(ball, 40);
-            Canvas.SetRight(ball, 40);
-            paintCanvas.Children.Add(ball);
+        private Ball ball;
+        private Bat bat;
+        private List<Brick> brick;
 
-            for (int i = 0; i < 7; i++)
-            {
-
-            }
-        }
         public MainWindow()
         {
             InitializeComponent();
+            
         }
 
         private void Play(object sender, RoutedEventArgs e)
@@ -81,6 +82,34 @@ namespace BreakOut
             title.Opacity = 0;
             playImage.Opacity = 0;
             createScene();
+        }
+        private void createScene()
+        {
+            Brick tmp;
+            ball = new Ball();
+            Canvas.SetTop(ball, ball.ballY);
+            Canvas.SetLeft(ball, ball.ballX);
+            paintCanvas.Children.Add(ball);
+
+            bat = new Bat();
+            Canvas.SetTop(bat, bat.batY);
+            Canvas.SetLeft(bat, bat.batX);
+            paintCanvas.Children.Add(bat);
+
+            brick = new List<Brick>();
+            for (int i = 0; i < 7; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    tmp = new Brick(i);
+                    tmp.brickX += j * 64;
+                    tmp.brickY += i * 32;
+                    Canvas.SetTop(tmp, tmp.brickY);
+                    Canvas.SetLeft(tmp, tmp.brickX);
+                    paintCanvas.Children.Add(tmp);
+                    brick.Add(tmp);
+                }
+            }
         }
     }
 }
