@@ -84,8 +84,10 @@ namespace BreakOut
     {
        // private int n = 3;
         private ScoreBox scoreBox;
-        private Label scoreLabel;
-        private Label livesLabel;
+        //private Label scoreLabel;
+        //private Label livesLabel;
+        private TextBlock scoreBlock;
+        private TextBlock livesBlock;
         private Ball ball;
         private Bat bat;
         private List<Brick> brick;
@@ -111,28 +113,29 @@ namespace BreakOut
             Canvas.SetLeft(scoreBox, scoreBox.X);
             paintCanvas.Children.Add(scoreBox);
 
-            scoreLabel = new Label
+            scoreBlock = new TextBlock
             {
-                Content = score,
+                Text = score.ToString(),
                 Foreground = Brushes.White,
-                Height = 14,
+                Height = 16,
                 Width = 42,
-                Opacity = 1
+                FontSize = 14
             };
-            Canvas.SetTop(scoreLabel, 6);
-            Canvas.SetLeft(scoreLabel, 422);
-            paintCanvas.Children.Add(scoreLabel);
+            Canvas.SetTop(scoreBlock, 3);
+            Canvas.SetLeft(scoreBlock, 422);
+            paintCanvas.Children.Add(scoreBlock);
 
-            livesLabel = new Label
+            livesBlock = new TextBlock
             {
-                Content = lives,
+                Text = lives.ToString(),
                 Foreground = Brushes.White,
-                Height = 14,
-                Width = 42
+                Height = 16,
+                Width = 42,
+                FontSize = 14
             };
-            Canvas.SetTop(livesLabel, 22);
-            Canvas.SetLeft(livesLabel, 422);
-            paintCanvas.Children.Add(livesLabel);
+            Canvas.SetTop(livesBlock, 19);
+            Canvas.SetLeft(livesBlock, 422);
+            paintCanvas.Children.Add(livesBlock);
 
             ball = new Ball();
             Canvas.SetTop(ball, ball.ballY);
