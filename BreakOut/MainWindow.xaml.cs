@@ -65,11 +65,31 @@ namespace BreakOut
             this.batY = 521;
         }
     }
+    public class ScoreBox : Image
+    {
+        public int X, Y;
+        public ScoreBox()
+        {
+            BitmapImage b = new BitmapImage();
+            b.BeginInit();
+            b.UriSource = new Uri("spr_ScoreBox_0.png", UriKind.Relative);
+            b.EndInit();
+            Stretch = Stretch.Fill;
+            Source = b;
+            this.X = 360;
+            this.Y = 0;
+        }
+    }
     public partial class MainWindow : Window
     {
+        private ScoreBox scoreBox;
+        private Label scoreLabel;
+        private Label livesLabel;
         private Ball ball;
         private Bat bat;
         private List<Brick> brick;
+        private int lives = 3;
+        private int score = 0;
 
         public MainWindow()
         {
@@ -85,7 +105,19 @@ namespace BreakOut
         }
         private void createScene()
         {
-            Brick tmp;
+            scoreBox = new ScoreBox();
+            Canvas.SetTop(scoreBox, scoreBox.Y);
+            Canvas.SetLeft(scoreBox, scoreBox.X);
+            paintCanvas.Children.Add(scoreBox);
+
+            scoreLabel.Content = score.ToString();
+            Canvas.SetTop(scoreLabel, scoreBox.Y);
+            Canvas.SetLeft(scoreBox, scoreBox.X);
+
+            livesLabel.Content = lives.ToString();
+            Canvas.SetTop(scoreBox, scoreBox.Y);
+            Canvas.SetLeft(scoreBox, scoreBox.X);
+
             ball = new Ball();
             Canvas.SetTop(ball, ball.ballY);
             Canvas.SetLeft(ball, ball.ballX);
@@ -96,6 +128,7 @@ namespace BreakOut
             Canvas.SetLeft(bat, bat.batX);
             paintCanvas.Children.Add(bat);
 
+            Brick tmp;
             brick = new List<Brick>();
             for (int i = 0; i < 7; i++)
             {
@@ -107,9 +140,11 @@ namespace BreakOut
                     Canvas.SetTop(tmp, tmp.brickY);
                     Canvas.SetLeft(tmp, tmp.brickX);
                     paintCanvas.Children.Add(tmp);
+ 
                     brick.Add(tmp);
                 }
             }
+            
         }
     }
 }
