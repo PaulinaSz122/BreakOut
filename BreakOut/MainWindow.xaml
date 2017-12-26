@@ -5,8 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BreakOut"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
+        Title="MainWindow" Height="622" Width="836">
+    <Grid Background="Black">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="296*"/>
+            <RowDefinition Height="295*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="414*"/>
+            <ColumnDefinition Width="414*"/>
+        </Grid.ColumnDefinitions>
+        <Canvas Name="paintCanvas" 
+                Grid.Column="1" HorizontalAlignment="Stretch" MaxWidth="836" MaxHeight="622" Grid.ColumnSpan="2" Grid.RowSpan="2">
+            <Canvas.Background>
+                <ImageBrush/>
+            </Canvas.Background>
+            <Image Height="591" Source="bck_Stars.png" Stretch="Fill" Width="828"/>
+            <Image x:Name="title" Height="282" Canvas.Left="200" Source="spr_Intro_0.png" Stretch="Fill" Canvas.Top="43" Width="417"/>
+            <Button Content="Button" Canvas.Left="392" Canvas.Top="445" Width="75">
+                <Button.OpacityMask>
+                    <ImageBrush/>
+                </Button.OpacityMask>
+                <Button.Background>
+                    <ImageBrush/>
+                </Button.Background>
+            </Button>
+            <Image x:Name ="playImage" Height="97" Canvas.Left="342" Source="spr_Play_0.png" Stretch="Fill" Canvas.Top="419" Width="143"/>
+            <Button x:Name="playButton" Content="Button" Canvas.Left="342" Canvas.Top="419" Width="143" Height="97" Click="Play" Opacity="0"/>
+        </Canvas>
     </Grid>
 </Window>
