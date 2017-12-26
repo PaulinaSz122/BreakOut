@@ -82,6 +82,7 @@ namespace BreakOut
     }
     public partial class MainWindow : Window
     {
+        private int n = 3;
         private ScoreBox scoreBox;
         private Label scoreLabel;
         private Label livesLabel;
@@ -99,8 +100,9 @@ namespace BreakOut
 
         private void Play(object sender, RoutedEventArgs e)
         {
-            title.Opacity = 0;
-            playImage.Opacity = 0;
+            paintCanvas.Children.Remove(title);
+            paintCanvas.Children.Remove(playImage);
+            paintCanvas.Children.Remove(playButton);
             createScene();
         }
         private void createScene()
@@ -110,13 +112,25 @@ namespace BreakOut
             Canvas.SetLeft(scoreBox, scoreBox.X);
             paintCanvas.Children.Add(scoreBox);
 
-            scoreLabel.Content = score.ToString();
-            Canvas.SetTop(scoreLabel, scoreBox.Y);
-            Canvas.SetLeft(scoreBox, scoreBox.X);
+            scoreLabel = new Label();
+            scoreLabel.Content = score;
+            scoreLabel.Foreground = Brushes.White;
+            scoreLabel.Height = 14;
+            scoreLabel.Width = 42;
+            Canvas.SetTop(scoreLabel, 6);
+            Canvas.SetLeft(scoreLabel, 422);
+            paintCanvas.Children.Add(scoreLabel);
+            
 
-            livesLabel.Content = lives.ToString();
-            Canvas.SetTop(scoreBox, scoreBox.Y);
-            Canvas.SetLeft(scoreBox, scoreBox.X);
+            livesLabel = new Label();
+            livesLabel.Content = lives;
+            livesLabel.Foreground = Brushes.White;
+            livesLabel.Background = Brushes.Black;
+            livesLabel.Height = 14;
+            livesLabel.Width = 42;
+            Canvas.SetTop(livesLabel, 22);
+            Canvas.SetLeft(livesLabel, 422);
+            paintCanvas.Children.Add(livesLabel);
 
             ball = new Ball();
             Canvas.SetTop(ball, ball.ballY);
@@ -140,7 +154,6 @@ namespace BreakOut
                     Canvas.SetTop(tmp, tmp.brickY);
                     Canvas.SetLeft(tmp, tmp.brickX);
                     paintCanvas.Children.Add(tmp);
- 
                     brick.Add(tmp);
                 }
             }
