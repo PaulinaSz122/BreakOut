@@ -82,7 +82,7 @@ namespace BreakOut
     }
     public partial class MainWindow : Window
     {
-        private int n = 3;
+       // private int n = 3;
         private ScoreBox scoreBox;
         private Label scoreLabel;
         private Label livesLabel;
@@ -95,7 +95,6 @@ namespace BreakOut
         public MainWindow()
         {
             InitializeComponent();
-            
         }
 
         private void Play(object sender, RoutedEventArgs e)
@@ -103,31 +102,34 @@ namespace BreakOut
             paintCanvas.Children.Remove(title);
             paintCanvas.Children.Remove(playImage);
             paintCanvas.Children.Remove(playButton);
-            createScene();
+            CreateScene();
         }
-        private void createScene()
+        private void CreateScene()
         {
             scoreBox = new ScoreBox();
             Canvas.SetTop(scoreBox, scoreBox.Y);
             Canvas.SetLeft(scoreBox, scoreBox.X);
             paintCanvas.Children.Add(scoreBox);
 
-            scoreLabel = new Label();
-            scoreLabel.Content = score;
-            scoreLabel.Foreground = Brushes.White;
-            scoreLabel.Height = 14;
-            scoreLabel.Width = 42;
+            scoreLabel = new Label
+            {
+                Content = score,
+                Foreground = Brushes.White,
+                Height = 14,
+                Width = 42,
+                Opacity = 1
+            };
             Canvas.SetTop(scoreLabel, 6);
             Canvas.SetLeft(scoreLabel, 422);
             paintCanvas.Children.Add(scoreLabel);
-            
 
-            livesLabel = new Label();
-            livesLabel.Content = lives;
-            livesLabel.Foreground = Brushes.White;
-            livesLabel.Background = Brushes.Black;
-            livesLabel.Height = 14;
-            livesLabel.Width = 42;
+            livesLabel = new Label
+            {
+                Content = lives,
+                Foreground = Brushes.White,
+                Height = 14,
+                Width = 42
+            };
             Canvas.SetTop(livesLabel, 22);
             Canvas.SetLeft(livesLabel, 422);
             paintCanvas.Children.Add(livesLabel);
@@ -156,8 +158,7 @@ namespace BreakOut
                     paintCanvas.Children.Add(tmp);
                     brick.Add(tmp);
                 }
-            }
-            
+            } 
         }
     }
 }

@@ -33,6 +33,7 @@
             </Button>
             <Image x:Name ="playImage" Height="97" Canvas.Left="342" Source="spr_Play_0.png" Stretch="Fill" Canvas.Top="419" Width="143"/>
             <Button x:Name="playButton" Content="Button" Canvas.Left="342" Canvas.Top="419" Width="143" Height="97" Click="Play" Opacity="0"/>
+            <Label Content="Label" Canvas.Left="240" Canvas.Top="432"/>
         </Canvas>
     </Grid>
 </Window>
