@@ -21,8 +21,8 @@
             <Canvas.Background>
                 <ImageBrush/>
             </Canvas.Background>
-            <Image Height="591" Source="bck_Stars.png" Stretch="Fill" Width="828"/>
-            <Image x:Name="title" Height="282" Canvas.Left="200" Source="spr_Intro_0.png" Stretch="Fill" Canvas.Top="43" Width="417"/>
+            <Image Height="591" Source="Images/bck_Stars.png" Stretch="Fill" Width="828"/>
+            <Image x:Name="title" Height="282" Canvas.Left="200" Source="Images/spr_Intro_0.png" Stretch="Fill" Canvas.Top="43" Width="417"/>
             <Button Content="Button" Canvas.Left="392" Canvas.Top="445" Width="75">
                 <Button.OpacityMask>
                     <ImageBrush/>
@@ -31,7 +31,7 @@
                     <ImageBrush/>
                 </Button.Background>
             </Button>
-            <Image x:Name ="playImage" Height="97" Canvas.Left="342" Source="spr_Play_0.png" Stretch="Fill" Canvas.Top="419" Width="143"/>
+            <Image x:Name ="playImage" Height="97" Canvas.Left="342" Source="Images/spr_Play_0.png" Stretch="Fill" Canvas.Top="419" Width="143"/>
             <Button x:Name="playButton" Content="Button" Canvas.Left="342" Canvas.Top="419" Width="143" Height="97" Click="Play" Opacity="0"/>
             <TextBlock Canvas.Left="200" TextWrapping="Wrap" Text="TextBlock" Canvas.Top="29"/>
         </Canvas>

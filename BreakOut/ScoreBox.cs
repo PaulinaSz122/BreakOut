@@ -16,7 +16,7 @@ namespace BreakOut
         {
             BitmapImage b = new BitmapImage();
             b.BeginInit();
-            b.UriSource = new Uri("spr_ScoreBox_0.png", UriKind.Relative);
+            b.UriSource = new Uri("Images/spr_ScoreBox_0.png", UriKind.Relative);
             b.EndInit();
             Stretch = Stretch.Fill;
             Source = b;

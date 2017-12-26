@@ -98,19 +98,19 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="bck_Stars.png" />
-    <Resource Include="spr_Ball_0.png" />
-    <Resource Include="spr_Bat_0.png" />
-    <Resource Include="spr_Brick_0.png" />
-    <Resource Include="spr_Brick_1.png" />
-    <Resource Include="spr_Brick_2.png" />
-    <Resource Include="spr_Brick_3.png" />
-    <Resource Include="spr_Brick_4.png" />
-    <Resource Include="spr_Brick_5.png" />
-    <Resource Include="spr_Brick_6.png" />
-    <Resource Include="spr_Intro_0.png" />
-    <Resource Include="spr_Play_0.png" />
-    <Resource Include="spr_ScoreBox_0.png" />
+    <Resource Include="Images\bck_Stars.png" />
+    <Resource Include="Images\spr_Ball_0.png" />
+    <Resource Include="Images\spr_Bat_0.png" />
+    <Resource Include="Images\spr_Brick_0.png" />
+    <Resource Include="Images\spr_Brick_1.png" />
+    <Resource Include="Images\spr_Brick_2.png" />
+    <Resource Include="Images\spr_Brick_3.png" />
+    <Resource Include="Images\spr_Brick_4.png" />
+    <Resource Include="Images\spr_Brick_5.png" />
+    <Resource Include="Images\spr_Brick_6.png" />
+    <Resource Include="Images\spr_Intro_0.png" />
+    <Resource Include="Images\spr_Play_0.png" />
+    <Resource Include="Images\spr_ScoreBox_0.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

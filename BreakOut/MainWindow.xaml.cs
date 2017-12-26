@@ -18,6 +18,7 @@ namespace BreakOut
 {
     public partial class MainWindow : Window
     {
+        private bool ballInMove = false;
         private ScoreBox scoreBox;
         private TextBlock scoreBlock;
         private TextBlock livesBlock;
@@ -45,13 +46,25 @@ namespace BreakOut
             {
                 case 4:
                     paintCanvas.Children.Remove(bat);
-                    bat.batX -= 1;
+                    bat.batX -= 2;
                     PaintBat();
+                    if (!ballInMove)
+                    {
+                        paintCanvas.Children.Remove(ball);
+                        ball.ballX -= 2;
+                        PaintBall();
+                    }
                     break;
                 case 6:
                     paintCanvas.Children.Remove(bat);
-                    bat.batX += 1;
+                    bat.batX += 2;
                     PaintBat();
+                    if (!ballInMove)
+                    {
+                        paintCanvas.Children.Remove(ball);
+                        ball.ballX += 2;
+                        PaintBall();
+                    }
                     break;
 
             }

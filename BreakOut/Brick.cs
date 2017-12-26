@@ -18,7 +18,7 @@ namespace BreakOut
         {
             BitmapImage b = new BitmapImage();
             b.BeginInit();
-            b.UriSource = new Uri(brickColor[index], UriKind.Relative);
+            b.UriSource = new Uri("Images/" + brickColor[index], UriKind.Relative);
             b.EndInit();
             Stretch = Stretch.Fill;
             Source = b;
