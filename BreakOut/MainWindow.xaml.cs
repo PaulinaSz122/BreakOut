@@ -221,11 +221,11 @@ namespace BreakOut
             brick = new List<Brick>();
             for (int i = 0; i < 7; i++)
             {
-                for (int j = 0; j < 9; j++)
+                for (int j = 0; j < 8; j++)
                 {
                     tmp = new Brick(i);
-                    tmp.brickX += j * 64;
-                    tmp.brickY += i * 32;
+                    tmp.brickX += (j * 64 + (j - 1) * 32);
+                    tmp.brickY += (i * 32 + (i - 1) * 4);
                     Canvas.SetTop(tmp, tmp.brickY);
                     Canvas.SetLeft(tmp, tmp.brickX);
                     paintCanvas.Children.Add(tmp);

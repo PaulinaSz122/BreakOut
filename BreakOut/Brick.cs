@@ -23,8 +23,8 @@ namespace BreakOut
             b.EndInit();
             Stretch = Stretch.Fill;
             Source = b;
-            this.brickX = 130;
-            this.brickY = 82;
+            this.brickX = 76;
+            this.brickY = 66;
         }
     }
 }
