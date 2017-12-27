@@ -29,8 +29,9 @@ namespace BreakOut
         private int score = 0;
         private TimeSpan movement = new TimeSpan(10000);
         private int batDirection = 0; //0 - brak ruchu, 4 - lewo, 6 prawo
-        DispatcherTimer timerBat, timerBall;
-        private double ballDrirectionX = 0, ballDirectionY = -2;
+        private DispatcherTimer timerBat, timerBall;
+        private double ballDirectionX, ballDirectionY;
+        private Random rnd = new Random();
 
         public MainWindow()
         {
@@ -83,7 +84,7 @@ namespace BreakOut
             if (ballInMove)
             {
                 paintCanvas.Children.Remove(ball);
-                ball.ballX += ballDrirectionX;
+                ball.ballX += ballDirectionX;
                 ball.ballY += ballDirectionY;
                 PaintBall();
             }
@@ -102,6 +103,15 @@ namespace BreakOut
                     break;
                 case Key.Space:
                     ballInMove = true;
+                    ballDirectionX = (rnd.Next(9) - rnd.Next(9)) / 10.0;
+                    if (ballDirectionX < 0)
+                    {
+                        ballDirectionY = -2 - ballDirectionX;
+                    }
+                    else
+                    {
+                        ballDirectionY = -2 + ballDirectionX;
+                    }
                     timerBall.Start();
                     break;
             }
