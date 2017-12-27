@@ -96,11 +96,13 @@ namespace BreakOut
                 }
                 foreach(Brick b in brick)
                 {
-                    if (b.destroyed == false &&
+                    if (
+                        b.destroyed == false &&
                         ball.ballX >= b.brickX - 25 &&
-                        ball.ballX  <= b.brickX &&
                         ball.ballY >= b.brickY - 25 &&
-                        ball.ballY <= b.brickY + 25 )
+                        ball.ballX <= b.brickX  + 64 &&
+                        ball.ballY <= b.brickY  + 32
+                        )
                     {
                         paintCanvas.Children.Remove(b);
                         b.destroyed = true;
