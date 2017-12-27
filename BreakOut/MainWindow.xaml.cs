@@ -18,6 +18,7 @@ namespace BreakOut
 {
     public partial class MainWindow : Window
     {
+        private bool playClicked = false;
         private bool ballInMove = false;
         private ScoreBox scoreBox;
         private TextBlock scoreBlock;
@@ -27,7 +28,8 @@ namespace BreakOut
         private List<Brick> brick;
         private int lives = 3;
         private int score = 0;
-        private TimeSpan movement = new TimeSpan(10000);
+        private TimeSpan moveBat = new TimeSpan(10000);
+        private TimeSpan moveBall = new TimeSpan(10000);
         private int batDirection = 0; //0 - brak ruchu, 4 - lewo, 6 prawo
         private DispatcherTimer timerBat, timerBall;
         private double ballDirectionX, ballDirectionY;
@@ -38,10 +40,10 @@ namespace BreakOut
             InitializeComponent();
             timerBat = new DispatcherTimer();
             timerBat.Tick += new EventHandler(TimerTickBat);
-            timerBat.Interval = movement;
+            timerBat.Interval = moveBat;
             timerBall = new DispatcherTimer();
             timerBall.Tick += new EventHandler(TimerTickBall);
-            timerBall.Interval = movement;
+            timerBall.Interval = moveBall;
             this.KeyDown += new KeyEventHandler(OnButtonKeyDown);
             this.KeyUp += new KeyEventHandler(OnButtonKeyUp);
         }
@@ -84,6 +86,30 @@ namespace BreakOut
             if (ballInMove)
             {
                 paintCanvas.Children.Remove(ball);
+                if (ball.ballX < 0 || ball.ballX > 786)
+                {
+                    ballDirectionX *= -1;
+                }
+                else if (ball.ballY < 0 || ball.ballY > 564)
+                { 
+                    ballDirectionY *= -1;
+                }
+                foreach(Brick b in brick)
+                {
+                    if (b.destroyed == false &&
+                        ball.ballX >= b.brickX - 25 &&
+                        ball.ballX  <= b.brickX &&
+                        ball.ballY >= b.brickY - 25 &&
+                        ball.ballY <= b.brickY + 25 )
+                    {
+                        paintCanvas.Children.Remove(b);
+                        b.destroyed = true;
+                        ballDirectionX *= -1;
+                        ballDirectionY *= -1;
+                    }
+                }
+                
+
                 ball.ballX += ballDirectionX;
                 ball.ballY += ballDirectionY;
                 PaintBall();
@@ -91,47 +117,50 @@ namespace BreakOut
         }
         private void OnButtonKeyDown(object sender, KeyEventArgs e)
         {
-            switch (e.Key)
+            if (playClicked)
             {
-                case Key.Left:
-                    batDirection = 4;
-                    timerBat.Start();
-                    break;
-                case Key.Right:
-                    batDirection = 6;
-                    timerBat.Start();
-                    break;
-                case Key.Space:
-                    ballInMove = true;
-                    ballDirectionX = (rnd.Next(9) - rnd.Next(9)) / 10.0;
-                    if (ballDirectionX < 0)
-                    {
-                        ballDirectionY = -2 - ballDirectionX;
-                    }
-                    else
-                    {
-                        ballDirectionY = -2 + ballDirectionX;
-                    }
-                    timerBall.Start();
-                    break;
+                switch (e.Key)
+                {
+                    case Key.Left:
+                        batDirection = 4;
+                        timerBat.Start();
+                        break;
+                    case Key.Right:
+                        batDirection = 6;
+                        timerBat.Start();
+                        break;
+                    case Key.Space:
+                        ballInMove = true;
+                        ballDirectionX = (rnd.Next(10) * Math.Pow(-1, rnd.Next(2))) / 5.0;
+                        if (ballDirectionX < 0)
+                            ballDirectionY = -2 + ballDirectionX;
+                        else
+                            ballDirectionY = -2 - ballDirectionX;
+                        timerBall.Start();
+                        break;
+                }
             }
         }
         private void OnButtonKeyUp(object sender, KeyEventArgs e)
         {
-            switch (e.Key)
+            if (playClicked)
             {
-                case Key.Left:
-                    batDirection = 0;
-                    timerBat.Stop();
-                    break;
-                case Key.Right:
-                    batDirection = 0;
-                    timerBat.Stop();
-                    break;
+                switch (e.Key)
+                {
+                    case Key.Left:
+                        batDirection = 0;
+                        timerBat.Stop();
+                        break;
+                    case Key.Right:
+                        batDirection = 0;
+                        timerBat.Stop();
+                        break;
+                }
             }
         }
         private void Play(object sender, RoutedEventArgs e)
         {
+            playClicked = true;
             paintCanvas.Children.Remove(title);
             paintCanvas.Children.Remove(playImage);
             paintCanvas.Children.Remove(playButton);

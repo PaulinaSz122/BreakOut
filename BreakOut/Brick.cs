@@ -14,6 +14,7 @@ namespace BreakOut
         static string[] brickColor = {"spr_Brick_0.png", "spr_Brick_1.png", "spr_Brick_2.png", "spr_Brick_3.png",
                                       "spr_Brick_4.png", "spr_Brick_5.png", "spr_Brick_6.png"};
         public int brickX, brickY;
+        public bool destroyed = false;
         public Brick(int index)
         {
             BitmapImage b = new BitmapImage();
