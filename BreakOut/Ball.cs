@@ -11,7 +11,7 @@ namespace BreakOut
 {
     public class Ball : Image
     {
-        public int ballX, ballY;
+        public double ballX, ballY;
         public Ball()
         {
             BitmapImage b = new BitmapImage();

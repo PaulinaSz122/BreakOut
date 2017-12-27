@@ -29,46 +29,64 @@ namespace BreakOut
         private int score = 0;
         private TimeSpan movement = new TimeSpan(10000);
         private int batDirection = 0; //0 - brak ruchu, 4 - lewo, 6 prawo
-        DispatcherTimer timerBat;
+        DispatcherTimer timerBat, timerBall;
+        private double ballDrirectionX = 0, ballDirectionY = -2;
 
         public MainWindow()
         {
             InitializeComponent();
             timerBat = new DispatcherTimer();
-            timerBat.Tick += new EventHandler(Timer_Tick);
+            timerBat.Tick += new EventHandler(TimerTickBat);
             timerBat.Interval = movement;
+            timerBall = new DispatcherTimer();
+            timerBall.Tick += new EventHandler(TimerTickBall);
+            timerBall.Interval = movement;
             this.KeyDown += new KeyEventHandler(OnButtonKeyDown);
             this.KeyUp += new KeyEventHandler(OnButtonKeyUp);
         }
-        private void Timer_Tick(object sender, EventArgs e)
+        private void TimerTickBat(object sender, EventArgs e)
         {
             switch (batDirection)
             {
                 case 4:
-                    paintCanvas.Children.Remove(bat);
-                    bat.batX -= 2;
-                    PaintBat();
-                    if (!ballInMove)
+                    if (bat.batX > 0)
                     {
-                        paintCanvas.Children.Remove(ball);
-                        ball.ballX -= 2;
-                        PaintBall();
+                        paintCanvas.Children.Remove(bat);
+                        bat.batX -= 2;
+                        PaintBat();
+                        if (!ballInMove)
+                        {
+                            paintCanvas.Children.Remove(ball);
+                            ball.ballX -= 2;
+                            PaintBall();
+                        }
                     }
                     break;
                 case 6:
-                    paintCanvas.Children.Remove(bat);
-                    bat.batX += 2;
-                    PaintBat();
-                    if (!ballInMove)
+                    if (bat.batX < 724)
                     {
-                        paintCanvas.Children.Remove(ball);
-                        ball.ballX += 2;
-                        PaintBall();
+                        paintCanvas.Children.Remove(bat);
+                        bat.batX += 2;
+                        PaintBat();
+                        if (!ballInMove)
+                        {
+                            paintCanvas.Children.Remove(ball);
+                            ball.ballX += 2;
+                            PaintBall();
+                        }
                     }
                     break;
-
             }
-
+        }
+        private void TimerTickBall(object sender, EventArgs e)
+        {
+            if (ballInMove)
+            {
+                paintCanvas.Children.Remove(ball);
+                ball.ballX += ballDrirectionX;
+                ball.ballY += ballDirectionY;
+                PaintBall();
+            }
         }
         private void OnButtonKeyDown(object sender, KeyEventArgs e)
         {
@@ -81,6 +99,10 @@ namespace BreakOut
                 case Key.Right:
                     batDirection = 6;
                     timerBat.Start();
+                    break;
+                case Key.Space:
+                    ballInMove = true;
+                    timerBall.Start();
                     break;
             }
         }
