@@ -29,7 +29,7 @@ namespace BreakOut
         private int lives = 3;
         private int score = 0;
         private TimeSpan moveBat = new TimeSpan(10000);
-        private TimeSpan moveBall = new TimeSpan(10000);
+        private TimeSpan moveBall = new TimeSpan(100000);
         private int batDirection = 0; //0 - brak ruchu, 4 - lewo, 6 prawo
         private DispatcherTimer timerBat, timerBall;
         private double ballDirectionX, ballDirectionY;
@@ -96,13 +96,7 @@ namespace BreakOut
                 }
                 foreach(Brick b in brick)
                 {
-                    if (
-                        b.destroyed == false &&
-                        ball.ballX >= b.brickX - 25 &&
-                        ball.ballY >= b.brickY - 25 &&
-                        ball.ballX <= b.brickX  + 64 &&
-                        ball.ballY <= b.brickY  + 32
-                        )
+                    if (b.destroyed == false && IsCollision(b))
                     {
                         paintCanvas.Children.Remove(b);
                         b.destroyed = true;
@@ -110,7 +104,6 @@ namespace BreakOut
                         ballDirectionY *= -1;
                     }
                 }
-                
 
                 ball.ballX += ballDirectionX;
                 ball.ballY += ballDirectionY;
@@ -221,17 +214,61 @@ namespace BreakOut
             brick = new List<Brick>();
             for (int i = 0; i < 7; i++)
             {
-                for (int j = 0; j < 8; j++)
+                for (int j = 0; j < 9; j++)
                 {
                     tmp = new Brick(i);
-                    tmp.brickX += (j * 64 + (j - 1) * 32);
-                    tmp.brickY += (i * 32 + (i - 1) * 4);
+                    tmp.brickX += j * 64;
+                    tmp.brickY += i * 32;
                     Canvas.SetTop(tmp, tmp.brickY);
                     Canvas.SetLeft(tmp, tmp.brickX);
                     paintCanvas.Children.Add(tmp);
                     brick.Add(tmp);
                 }
             } 
+        }
+        private bool IsCollision(Brick B)
+        {
+            //The sides of the rectangles
+            double leftBall, leftB;
+            double rightBall, rightB;
+            double topBall, topB;
+            double bottomBall, bottomB;
+
+            //Calculate the sides of rect A
+            leftBall = ball.ballX;
+            rightBall = ball.ballX + 25;
+            topBall = ball.ballY;
+            bottomBall = ball.ballY + 25;
+
+            //Calculate the sides of rect B
+            leftB = B.brickX;
+            rightB = B.brickX + 64;
+            topB = B.brickY;
+            bottomB = B.brickY + 32;
+
+            //If any of the sides from A are outside of B
+            if (bottomBall <= topB)
+            {
+                return false;
+            }
+
+            if (topBall >= bottomB)
+            {
+                return false;
+            }
+
+            if (rightBall <= leftB)
+            {
+                return false;
+            }
+
+            if (leftBall >= rightB)
+            {
+                return false;
+            }
+
+            //If none of the sides from A are outside B
+            return true;
         }
     }
 }
