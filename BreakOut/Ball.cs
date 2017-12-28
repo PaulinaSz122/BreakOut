@@ -20,7 +20,9 @@ namespace BreakOut
             Stretch = Stretch.Fill;
             Source = b;
             this.X = 407;
-            this.Y = 496;
+            this.Y = 494;
+            this.Width = 25;
+            this.Height = 25;
         }
     }
 }

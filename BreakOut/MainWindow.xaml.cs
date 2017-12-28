@@ -100,21 +100,30 @@ namespace BreakOut
                 {
                     lives--;
                     livesBlock.Text = lives.ToString();
-
                     if (lives == 0)
                     {
                         GameOver();
                     }
-                    paintCanvas.Children.Remove(ball);
-                    paintCanvas.Children.Remove(bat);
-                    ball.X = 407;
-                    ball.Y = 496;
-                    ballInMove = false;
-                    bat.X = 372;
-                    bat.Y = 521;
-                    PaintBat();
-                    PaintBall();
+                    Reset();
                     return;
+                }
+                if ((n = IsCollision(bat)) != 0)
+                {
+                    if (n == 2)
+                    {
+                        ballDirectionY *= -1;
+                    }
+                    else
+                    {
+                        lives--;
+                        livesBlock.Text = lives.ToString();
+                        if (lives == 0)
+                        {
+                            GameOver();
+                        }
+                        Reset();
+                    }
+                    
                 }
                 foreach(Brick b in brick)
                 {
@@ -138,6 +147,13 @@ namespace BreakOut
                 }
                 if (tmp != null)
                 brick.Remove(tmp);
+                if (brick.Count == 0)
+                {
+                    MessageBox.Show("You won! Your score is: " + score.ToString(), "Congratulations!", MessageBoxButton.OK, MessageBoxImage.Hand);
+                    this.Close();
+                    timerBall.Stop();
+                    timerBat.Stop();
+                }
 
                 ball.X += ballDirectionX;
                 ball.Y += ballDirectionY;
@@ -260,7 +276,7 @@ namespace BreakOut
                 }
             } 
         }
-        private int IsCollision(Brick B)
+        private int IsCollision(Sprite B)
         {
             //The sides of the rectangles
             double leftBall, leftB;
@@ -269,20 +285,20 @@ namespace BreakOut
             double bottomBall, bottomB;
             
             leftBall = ball.X;
-            rightBall = ball.X + 25;
+            rightBall = ball.X + ball.Width;
             topBall = ball.Y;
-            bottomBall = ball.Y + 25;
+            bottomBall = ball.Y + ball.Height;
             
             leftB = B.X;
-            rightB = B.X + 64;
+            rightB = B.X + B.Width;
             topB = B.Y;
-            bottomB = B.Y + 32;
+            bottomB = B.Y + B.Height;
             int colisionTop = 2;
             int colisionBottom = 8;
             int colisonLeft = 4;
             int colisionRight = 6;
             
-            if (bottomBall < topB)
+            if (bottomBall <= topB)
             {
                 colisionTop = 0;
                 return 0;
@@ -315,7 +331,20 @@ namespace BreakOut
         {
             MessageBox.Show("You lose! Your score is: " +  score.ToString(), "Game Over", MessageBoxButton.OK, MessageBoxImage.Hand);
             this.Close();
-
+            timerBall.Stop();
+            timerBat.Stop();
+        }
+        private void Reset()
+        {
+            paintCanvas.Children.Remove(ball);
+            paintCanvas.Children.Remove(bat);
+            ball.X = 409;
+            ball.Y = 494;
+            ballInMove = false;
+            bat.X = 372;
+            bat.Y = 521;
+            PaintBat();
+            PaintBall();
         }
     }
 }
