@@ -9,9 +9,8 @@ using System.Windows.Controls;
 
 namespace BreakOut
 {
-    public class ScoreBox : Image
+    public class ScoreBox : Sprite
     {
-        public int X, Y;
         public ScoreBox()
         {
             BitmapImage b = new BitmapImage();

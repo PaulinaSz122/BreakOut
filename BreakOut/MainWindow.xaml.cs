@@ -52,29 +52,29 @@ namespace BreakOut
             switch (batDirection)
             {
                 case 4:
-                    if (bat.batX > 0)
+                    if (bat.X > 0)
                     {
                         paintCanvas.Children.Remove(bat);
-                        bat.batX -= 2;
+                        bat.X -= 2;
                         PaintBat();
                         if (!ballInMove)
                         {
                             paintCanvas.Children.Remove(ball);
-                            ball.ballX -= 2;
+                            ball.X -= 2;
                             PaintBall();
                         }
                     }
                     break;
                 case 6:
-                    if (bat.batX < 724)
+                    if (bat.X < 724)
                     {
                         paintCanvas.Children.Remove(bat);
-                        bat.batX += 2;
+                        bat.X += 2;
                         PaintBat();
                         if (!ballInMove)
                         {
                             paintCanvas.Children.Remove(ball);
-                            ball.ballX += 2;
+                            ball.X += 2;
                             PaintBall();
                         }
                     }
@@ -84,25 +84,54 @@ namespace BreakOut
         private void TimerTickBall(object sender, EventArgs e)
         {
             Brick tmp = null;
+            int n;
             if (ballInMove)
             {
                 paintCanvas.Children.Remove(ball);
-                if (ball.ballX < 0 || ball.ballX > 786)
+                if (ball.X < 0 || ball.X > 786)
                 {
                     ballDirectionX *= -1;
                 }
-                else if (ball.ballY < 0 || ball.ballY > 564)
+                else if (ball.Y < 0)
                 { 
                     ballDirectionY *= -1;
                 }
+                else if (ball.Y > 564)
+                {
+                    lives--;
+                    livesBlock.Text = lives.ToString();
+
+                    if (lives == 0)
+                    {
+                        GameOver();
+                    }
+                    paintCanvas.Children.Remove(ball);
+                    paintCanvas.Children.Remove(bat);
+                    ball.X = 407;
+                    ball.Y = 496;
+                    ballInMove = false;
+                    bat.X = 372;
+                    bat.Y = 521;
+                    PaintBat();
+                    PaintBall();
+                    return;
+                }
                 foreach(Brick b in brick)
                 {
-                    if (b.destroyed == false && IsCollision(b))
+                    if ((n = IsCollision(b)) != 0)
                     {
                         tmp = b;
                         paintCanvas.Children.Remove(b);
-                        ballDirectionX *= -1;
-                        ballDirectionY *= -1;
+                        if (n == 2 || n == 8)
+                        {
+                            ballDirectionY *= -1;
+                        }
+                        if (n == 4 || n==6)
+                        {
+                            ballDirectionX *= -1;
+                        }
+                        score += 10;
+                        scoreBlock.Text = score.ToString();
                         break;
                     }
                     
@@ -110,8 +139,8 @@ namespace BreakOut
                 if (tmp != null)
                 brick.Remove(tmp);
 
-                ball.ballX += ballDirectionX;
-                ball.ballY += ballDirectionY;
+                ball.X += ballDirectionX;
+                ball.Y += ballDirectionY;
                 PaintBall();
             }
         }
@@ -168,14 +197,14 @@ namespace BreakOut
         }
         private void PaintBall()
         {
-            Canvas.SetTop(ball, ball.ballY);
-            Canvas.SetLeft(ball, ball.ballX);
+            Canvas.SetTop(ball, ball.Y);
+            Canvas.SetLeft(ball, ball.X);
             paintCanvas.Children.Add(ball);
         }
         private void PaintBat()
         {
-            Canvas.SetTop(bat, bat.batY);
-            Canvas.SetLeft(bat, bat.batX);
+            Canvas.SetTop(bat, bat.Y);
+            Canvas.SetLeft(bat, bat.X);
             paintCanvas.Children.Add(bat);
         }
         private void CreateScene()
@@ -222,58 +251,71 @@ namespace BreakOut
                 for (int j = 0; j < 9; j++)
                 {
                     tmp = new Brick(i);
-                    tmp.brickX += j * 64;
-                    tmp.brickY += i * 32;
-                    Canvas.SetTop(tmp, tmp.brickY);
-                    Canvas.SetLeft(tmp, tmp.brickX);
+                    tmp.X += j * 64;
+                    tmp.Y += i * 32;
+                    Canvas.SetTop(tmp, tmp.Y);
+                    Canvas.SetLeft(tmp, tmp.X);
                     paintCanvas.Children.Add(tmp);
                     brick.Add(tmp);
                 }
             } 
         }
-        private bool IsCollision(Brick B)
+        private int IsCollision(Brick B)
         {
             //The sides of the rectangles
             double leftBall, leftB;
             double rightBall, rightB;
             double topBall, topB;
             double bottomBall, bottomB;
-
-            //Calculate the sides of rect A
-            leftBall = ball.ballX;
-            rightBall = ball.ballX + 25;
-            topBall = ball.ballY;
-            bottomBall = ball.ballY + 25;
-
-            //Calculate the sides of rect B
-            leftB = B.brickX;
-            rightB = B.brickX + 64;
-            topB = B.brickY;
-            bottomB = B.brickY + 32;
-
-            //If any of the sides from A are outside of B
+            
+            leftBall = ball.X;
+            rightBall = ball.X + 25;
+            topBall = ball.Y;
+            bottomBall = ball.Y + 25;
+            
+            leftB = B.X;
+            rightB = B.X + 64;
+            topB = B.Y;
+            bottomB = B.Y + 32;
+            int colisionTop = 2;
+            int colisionBottom = 8;
+            int colisonLeft = 4;
+            int colisionRight = 6;
+            
             if (bottomBall < topB)
             {
-                return false;
+                colisionTop = 0;
+                return 0;
             }
 
             if (topBall > bottomB)
             {
-                return false;
+                colisionBottom = 0;
+                return 0;
             }
 
             if (rightBall < leftB)
             {
-                return false;
+                colisonLeft = 0;
+                return 0;
             }
 
             if (leftBall > rightB)
             {
-                return false;
+                colisionRight = 0;
+                return 0;
             }
+            
+            if (colisionTop == 2) return colisionTop;
+            if (colisionBottom == 8) return colisionBottom;
+            if (colisonLeft == 4) return colisonLeft;
+            else return colisionRight;
+        }
+        private void GameOver()
+        {
+            MessageBox.Show("You lose! Your score is: " +  score.ToString(), "Game Over", MessageBoxButton.OK, MessageBoxImage.Hand);
+            this.Close();
 
-            //If none of the sides from A are outside B
-            return true;
         }
     }
 }

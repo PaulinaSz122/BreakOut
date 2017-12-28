@@ -9,9 +9,8 @@ using System.Windows.Controls;
 
 namespace BreakOut
 {
-    public class Bat : Image
+    public class Bat : Sprite
     {
-        public int batX, batY;
         public Bat()
         {
             BitmapImage b = new BitmapImage();
@@ -20,8 +19,8 @@ namespace BreakOut
             b.EndInit();
             Stretch = Stretch.Fill;
             Source = b;
-            this.batX = 372;
-            this.batY = 521;
+            this.X = 372;
+            this.Y = 521;
         }
     }
 }

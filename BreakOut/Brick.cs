@@ -9,11 +9,10 @@ using System.Windows.Controls;
 
 namespace BreakOut
 {
-    public class Brick : Image
+    public class Brick : Sprite
     {
         static string[] brickColor = {"spr_Brick_0.png", "spr_Brick_1.png", "spr_Brick_2.png", "spr_Brick_3.png",
                                       "spr_Brick_4.png", "spr_Brick_5.png", "spr_Brick_6.png"};
-        public int brickX, brickY;
         public bool destroyed = false;
         public Brick(int index)
         {
@@ -23,8 +22,8 @@ namespace BreakOut
             b.EndInit();
             Stretch = Stretch.Fill;
             Source = b;
-            this.brickX = 130;
-            this.brickY = 78;
+            this.X = 130;
+            this.Y = 78;
         }
     }
 }

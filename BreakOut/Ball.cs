@@ -9,9 +9,8 @@ using System.Windows.Controls;
 
 namespace BreakOut
 {
-    public class Ball : Image
+    public class Ball : Sprite
     {
-        public double ballX, ballY;
         public Ball()
         {
             BitmapImage b = new BitmapImage();
@@ -20,8 +19,8 @@ namespace BreakOut
             b.EndInit();
             Stretch = Stretch.Fill;
             Source = b;
-            this.ballX = 407;
-            this.ballY = 496;
+            this.X = 407;
+            this.Y = 496;
         }
     }
 }
