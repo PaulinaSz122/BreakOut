@@ -29,7 +29,7 @@ namespace BreakOut
         private int lives = 3;
         private int score = 0;
         private TimeSpan moveBat = new TimeSpan(10000);
-        private TimeSpan moveBall = new TimeSpan(100000);
+        private TimeSpan moveBall = new TimeSpan(10000);
         private int batDirection = 0; //0 - brak ruchu, 4 - lewo, 6 prawo
         private DispatcherTimer timerBat, timerBall;
         private double ballDirectionX, ballDirectionY;
@@ -83,6 +83,7 @@ namespace BreakOut
         }
         private void TimerTickBall(object sender, EventArgs e)
         {
+            Brick tmp = null;
             if (ballInMove)
             {
                 paintCanvas.Children.Remove(ball);
@@ -98,12 +99,16 @@ namespace BreakOut
                 {
                     if (b.destroyed == false && IsCollision(b))
                     {
+                        tmp = b;
                         paintCanvas.Children.Remove(b);
-                        b.destroyed = true;
                         ballDirectionX *= -1;
                         ballDirectionY *= -1;
+                        break;
                     }
+                    
                 }
+                if (tmp != null)
+                brick.Remove(tmp);
 
                 ball.ballX += ballDirectionX;
                 ball.ballY += ballDirectionY;
@@ -247,22 +252,22 @@ namespace BreakOut
             bottomB = B.brickY + 32;
 
             //If any of the sides from A are outside of B
-            if (bottomBall <= topB)
+            if (bottomBall < topB)
             {
                 return false;
             }
 
-            if (topBall >= bottomB)
+            if (topBall > bottomB)
             {
                 return false;
             }
 
-            if (rightBall <= leftB)
+            if (rightBall < leftB)
             {
                 return false;
             }
 
-            if (leftBall >= rightB)
+            if (leftBall > rightB)
             {
                 return false;
             }
