@@ -34,7 +34,6 @@ namespace BreakOut
         private DispatcherTimer timerBat, timerBall;
         private double ballDirectionX, ballDirectionY;
         private Random rnd = new Random();
-        private bool spacePressed = false;
 
         public MainWindow()
         {
@@ -99,7 +98,6 @@ namespace BreakOut
                 }
                 else if (ball.Y > 564)
                 {
-                    spacePressed = false;
                     lives--;
                     livesBlock.Text = lives.ToString();
                     if (lives == 0)
@@ -177,22 +175,13 @@ namespace BreakOut
                         timerBat.Start();
                         break;
                     case Key.Space:
-                        if (!spacePressed)
-                        {
-                            ballInMove = true;
-                            spacePressed = true;
-                            ballDirectionX = (rnd.Next(10) * Math.Pow(-1, rnd.Next(2))) / 5.0;
-                            if (ballDirectionX < 0)
-                            {
-                                ballDirectionY = -2 + ballDirectionX;
-                            }
-                            else
-                            {
-                                ballDirectionY = -2 - ballDirectionX;
-                            }
-                            timerBall.Start();
-                        }
-                        
+                        ballInMove = true;
+                        ballDirectionX = (rnd.Next(10) * Math.Pow(-1, rnd.Next(2))) / 5.0;
+                        if (ballDirectionX < 0)
+                            ballDirectionY = -2 + ballDirectionX;
+                        else
+                            ballDirectionY = -2 - ballDirectionX;
+                        timerBall.Start();
                         break;
                 }
             }
