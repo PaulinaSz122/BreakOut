@@ -113,6 +113,30 @@ namespace BreakOut
                     if (n == 2)
                     {
                         ballDirectionY *= -1;
+                        double m;
+                        if ((m = (ball.X - bat.X)) > -24 && m <= 36)
+                        {
+                          /*  if (ballDirectionX > 0)
+                            {
+                                ballDirectionX = Math.Abs((m - 36) / 30);
+                            }
+                            else
+                            {*/
+                                ballDirectionX = (m - 36) / 30;
+                            //}
+                        }
+                        else if (m > 36 && m < 96)
+                        {
+                           /* if (ballDirectionX > 0)
+                            {
+                                ballDirectionX = (m - 36) / 30;
+                            }
+                            else
+                            {*/
+                                ballDirectionX =  (m - 36) / 30;
+                           // }
+                        }
+
                     }
                     else
                     {
@@ -312,21 +336,21 @@ namespace BreakOut
             }*/
 
             // jeśli jest kolizja, sprawdzamy z której strony
-            if ((Math.Abs(rightBall - leftB) + 2) > Math.Abs(bottomBall - topB))
+            if ((Math.Abs(rightBall - leftB)) > Math.Abs(bottomBall - topB))
             {
+                if ((Math.Abs(bottomBall - topB)) > Math.Abs(leftBall - rightB))
+                {
+                    return 6;
+                }
                 return 2;
             }
-            else if ((Math.Abs(rightBall - leftB) - 2) > Math.Abs(topBall - bottomB))
+            else if ((Math.Abs(rightBall - leftB) )  > Math.Abs(topBall - bottomB))
             {
                 return 8;
             }
-            else if ((Math.Abs(bottomBall - topB) + 2) > Math.Abs(rightBall - leftB))
+            else if ((Math.Abs(bottomBall - topB)) > Math.Abs(rightBall - leftB))
             {
                 return 4;
-            }
-            else if ((Math.Abs(bottomBall - topB) - 2) > Math.Abs(leftBall - rightB))
-            {
-                return 6;
             }
 
             return 2;
