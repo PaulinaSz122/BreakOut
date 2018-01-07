@@ -54,6 +54,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Collision.cs" />
+    <Compile Include="Events.cs" />
+    <Compile Include="Scene.cs" />
+    <Compile Include="TimerTicks.cs" />
+    <Compile Include="Variables.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="ScoreBox.cs" />
     <Page Include="MainWindow.xaml">
