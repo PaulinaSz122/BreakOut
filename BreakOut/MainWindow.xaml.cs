@@ -34,7 +34,6 @@ namespace BreakOut
         private DispatcherTimer timerBat, timerBall;
         private double ballDirectionX, ballDirectionY;
         private Random rnd = new Random();
-        private bool spacePressed = false;
 
         public MainWindow()
         {
@@ -60,8 +59,8 @@ namespace BreakOut
                         PaintBat();
                         if (!ballInMove)
                         {
-                            paintCanvas.Children.Remove(ball);
                             ball.X -= 2;
+                            paintCanvas.Children.Remove(ball);
                             PaintBall();
                         }
                     }
@@ -86,6 +85,7 @@ namespace BreakOut
         {
             Brick tmp = null;
             int n;
+            
             if (ballInMove)
             {
                 paintCanvas.Children.Remove(ball);
@@ -99,7 +99,6 @@ namespace BreakOut
                 }
                 else if (ball.Y > 564)
                 {
-                    spacePressed = false;
                     lives--;
                     livesBlock.Text = lives.ToString();
                     if (lives == 0)
@@ -124,6 +123,7 @@ namespace BreakOut
                             GameOver();
                         }
                         Reset();
+                        return;
                     }
                     
                 }
@@ -137,7 +137,7 @@ namespace BreakOut
                         {
                             ballDirectionY *= -1;
                         }
-                        if (n == 4 || n==6)
+                        if (n == 4 || n == 6)
                         {
                             ballDirectionX *= -1;
                         }
@@ -177,22 +177,16 @@ namespace BreakOut
                         timerBat.Start();
                         break;
                     case Key.Space:
-                        if (!spacePressed)
+                        if (!ballInMove)
                         {
                             ballInMove = true;
-                            spacePressed = true;
                             ballDirectionX = (rnd.Next(10) * Math.Pow(-1, rnd.Next(2))) / 5.0;
                             if (ballDirectionX < 0)
-                            {
                                 ballDirectionY = -2 + ballDirectionX;
-                            }
                             else
-                            {
                                 ballDirectionY = -2 - ballDirectionX;
-                            }
                             timerBall.Start();
                         }
-                        
                         break;
                 }
             }
@@ -289,7 +283,6 @@ namespace BreakOut
         }
         private int IsCollision(Sprite B)
         {
-            //The sides of the rectangles
             double leftBall, leftB;
             double rightBall, rightB;
             double topBall, topB;
@@ -304,39 +297,39 @@ namespace BreakOut
             rightB = B.X + B.Width;
             topB = B.Y;
             bottomB = B.Y + B.Height;
-            int colisionTop = 2;
-            int colisionBottom = 8;
-            int colisonLeft = 4;
-            int colisionRight = 6;
             
-            if (bottomBall <= topB)
+            if (bottomBall < topB || topBall > bottomB || rightBall < leftB || leftBall > rightB)
             {
-                colisionTop = 0;
+                //sprawdzamy czy nie ma kolizji
                 return 0;
             }
 
-            if (topBall > bottomB)
+            // sprawdzamy kolizje z rogami - nie ma kolizji
+           /* if ((bottomBall == topB && ((rightBall == leftB) || (leftBall == rightB))) ||
+               (topBall == bottomB && ((rightBall == leftB) || (leftBall == rightB))))
             {
-                colisionBottom = 0;
                 return 0;
+            }*/
+
+            // jeśli jest kolizja, sprawdzamy z której strony
+            if ((Math.Abs(rightBall - leftB) + 2) > Math.Abs(bottomBall - topB))
+            {
+                return 2;
+            }
+            else if ((Math.Abs(rightBall - leftB) - 2) > Math.Abs(topBall - bottomB))
+            {
+                return 8;
+            }
+            else if ((Math.Abs(bottomBall - topB) + 2) > Math.Abs(rightBall - leftB))
+            {
+                return 4;
+            }
+            else if ((Math.Abs(bottomBall - topB) - 2) > Math.Abs(leftBall - rightB))
+            {
+                return 6;
             }
 
-            if (rightBall < leftB)
-            {
-                colisonLeft = 0;
-                return 0;
-            }
-
-            if (leftBall > rightB)
-            {
-                colisionRight = 0;
-                return 0;
-            }
-            
-            if (colisionTop == 2) return colisionTop;
-            if (colisionBottom == 8) return colisionBottom;
-            if (colisonLeft == 4) return colisonLeft;
-            else return colisionRight;
+            return 2;
         }
         private void GameOver()
         {

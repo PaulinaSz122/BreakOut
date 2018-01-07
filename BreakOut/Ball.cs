@@ -21,8 +21,8 @@ namespace BreakOut
             Source = b;
             this.X = 407;
             this.Y = 494;
-            this.Width = 25;
-            this.Height = 25;
+            this.Width = 24;
+            this.Height = 24;
         }
     }
 }
